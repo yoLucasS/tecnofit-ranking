@@ -1,0 +1,34 @@
+services:
+  php:
+    build: .
+    volumes:
+      - .:/app
+    working_dir: /app
+    command: php -S 0.0.0.0:8080 public/index.php
+    ports:
+      - "8080:8080"
+    depends_on:
+      db:
+        condition: service_healthy
+    environment:
+      DB_HOST: db
+      DB_NAME: tecnofit
+      DB_USER: tecnofit
+      DB_PASS: secret
+
+  db:
+    image: mysql:8.0
+    environment:
+      MYSQL_DATABASE: tecnofit
+      MYSQL_USER: tecnofit
+      MYSQL_PASSWORD: secret
+      MYSQL_ROOT_PASSWORD: root
+    ports:
+      - "3306:3306"
+    volumes:
+      - ./init.sql:/docker-entrypoint-initdb.d/init.sql
+    healthcheck:
+      test: ["CMD", "mysqladmin", "ping", "-h", "localhost"]
+      interval: 5s
+      timeout: 5s
+      retries: 10
