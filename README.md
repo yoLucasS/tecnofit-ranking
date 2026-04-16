@@ -87,3 +87,29 @@ Cada usuário pode ter vários registros num mesmo movimento. O recorde pessoal 
 ## Segurança
 
 Todas as queries usam prepared statements, nenhum input do usuário é concatenado direto no SQL. Criei índices em `movement_id` e `user_id` na tabela de records pra não ficar lento quando crescer.
+
+## CI/CD
+
+Este projeto utiliza GitHub Actions para automacao de CI/CD.
+
+### Continuous Integration (CI)
+
+O workflow de CI roda automaticamente em:
+- Push para a branch `feature/ci-cd` ou `main`
+- Pull Requests para `main`
+
+O pipeline de CI inclui:
+1. Validacao do composer.json
+2. Instalacao das dependencias
+3. Verificacao de sintaxe PHP
+4. Build da imagem Docker
+
+### Continuous Deployment (CD)
+
+O workflow de CD roda automaticamente em:
+- Push para a branch `main`
+
+O pipeline de CD inclui:
+1. Instalacao das dependencias (sem dev)
+2. Build da imagem Docker de producao
+3. Verificacao da imagem gerada
