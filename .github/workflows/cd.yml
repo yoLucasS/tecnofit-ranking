@@ -1,0 +1,31 @@
+name: CD - Continuous Deployment
+
+on:
+  push:
+    branches: ["main"]
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Setup PHP
+        uses: shivammathur/setup-php@v2
+        with:
+          php-version: "8.2"
+          extensions: pdo, pdo_mysql
+
+      - name: Install dependencies
+        run: composer install --prefer-dist --no-progress --no-dev
+
+      - name: Build Docker image
+        run: docker build -t tecnofit-ranking:latest .
+
+      - name: Verify deployment build
+        run: |
+          echo "Build concluido com sucesso!"
+          echo "Imagem: tecnofit-ranking:latest"
+          docker images tecnofit-ranking
