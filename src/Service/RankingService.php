@@ -10,9 +10,9 @@ class RankingService
 {
     private RankingRepository $repo;
 
-    public function __construct()
+    public function __construct(?RankingRepository $repo = null)
     {
-        $this->repo = new RankingRepository();
+        $this->repo = $repo ?? new RankingRepository();
     }
 
     public function getRanking(string $identificador): array

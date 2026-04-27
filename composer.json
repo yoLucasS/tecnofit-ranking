@@ -10,6 +10,9 @@
             "App\\": "src/"
         }
     },
+    "scripts": {
+        "test": "php tests/RankingServiceTest.php"
+    },
     "config": {
         "optimize-autoloader": true
     }
